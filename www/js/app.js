@@ -145,10 +145,8 @@
 
 angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'bolunbao.services'])
 
-.run(function($ionicPlatform, Product) {
-  $ionicPlatform.ready(function() {
+.run(function () {
     AV.initialize('G5U1oJpvNaYxCdim8RNxmllc-gzGzoHsz', 'Co6b01uVBWOgh2miRUzTbc3y');
-  });
 })
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/')
