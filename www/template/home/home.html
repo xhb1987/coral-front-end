@@ -1,37 +1,31 @@
-    <ion-side-menus>
 
-      <!-- Center content -->
-      <ion-side-menu-content>
-        <ion-header-bar class="bar-dark">
-          <button class="button button-icon" ng-click="toggleProjects()">
-            <i class="icon ion-navicon"></i>
-          </button>
-          <h1 class="title">Bolunbao</h1>
-          <!-- New Task button-->
-<!--           <button class="button button-icon" ng-click="newTask()">
-            <i class="icon ion-compose"></i>
-          </button> -->
-        </ion-header-bar>
-        <ion-content scroll="false">
-          <ion-list>
-<!--             <ion-item ng-repeat="task in activeProject.tasks">
-              {{task.title}}
-            </ion-item> -->
-          </ion-list>
-        </ion-content>
-      </ion-side-menu-content>
+<ion-content>
+    <div class="content has-header padding">
+        <ion-list>
+            <ion-item ng-repeat="product in products" class="item-thumbnail-center">
+                <a ng-click="goToProductDetailPage(product)">
+                    <img src="test.png" />
+
+                    <h2>{{product.ProductName}}</h2>
+                    <p>this is the description</p>
+                </a>
+
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>
+
 
       <!-- Left menu -->
-      <ion-side-menu side="left">
+      <!--<ion-side-menu side="left">
         <ion-header-bar class="bar-dark">
           <h1 class="title">Person</h1>
         </ion-header-bar>
         <ion-content scroll="false">
-<!--           <ion-list>
+          <ion-list>
             <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
               {{project.title}}
             </ion-item>
-          </ion-list> -->
+          </ion-list>
         </ion-content>
-      </ion-side-menu>
-    </ion-side-menus>
+      </ion-side-menu>-->

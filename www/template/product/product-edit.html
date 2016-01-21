@@ -1,0 +1,16 @@
+﻿<ion-header-bar class="bar-dark">
+    <h1 class="title">产品</h1>
+</ion-header-bar>
+<ion-content>
+    <form ng-submit="productFormSubmit(product)">
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">产品名称</span>
+                <input type="text" ng-model="product.name" name="product.name">
+            </label>
+        </div>
+        <div class="padding">
+            <button type="submit" class="button button-block button-dark">提交</button>
+        </div>
+    </form>
+</ion-content>

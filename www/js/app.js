@@ -143,7 +143,7 @@
 //   })
 // }])
 
-angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'bolunbao.services'])
+angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'product', 'personalization', 'bolunbao.services'])
 
 .run(function () {
     AV.initialize('G5U1oJpvNaYxCdim8RNxmllc-gzGzoHsz', 'Co6b01uVBWOgh2miRUzTbc3y');
@@ -151,21 +151,40 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'bolunbao.serv
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/')
 
-  $stateProvider.state('home', {
-    url: '/',
-    templateUrl: 'template/home/home.html',
-    controller: 'homeController'
-  })
-  .state('register', {
-    url: '/register',
-    templateUrl: 'template/register/register.html',
-    controller: 'registerStep1Controller',
-    module: 'reigster'
-  })
-  .state('login', {
-    url: '/login',
-    templateUrl: 'template/login/login.html',
-    controller: 'loginController',
-    module: 'login'
-  });  
+    $stateProvider.state('home', {
+        url: '/',
+        templateUrl: 'template/home/home.html',
+        controller: 'homeController',
+        module: 'home'
+    })
+    .state('product', {
+        url: '/product-edit',
+        templateUrl: 'template/product/product-edit.html',
+        controller: 'productEditController',
+        module: 'product'
+    })
+    .state('product-detail', {
+        url: '/product/detail',
+        templateUrl: 'template/product/product-detail.html',
+        controller: 'productDetailController',
+        module: 'product'
+    })
+    .state('register', {
+        url: '/register',
+        templateUrl: 'template/register/register.html',
+        controller: 'registerStep1Controller',
+        module: 'reigster'
+    })
+    .state('login', {
+        url: '/login',
+        templateUrl: 'template/login/login.html',
+        controller: 'loginController',
+        module: 'login'
+    })
+    .state('personalization', {
+        url: '/personalization',
+        templateUrl: 'template/personalization/personalization.html',
+        controller: 'personalizationController',
+        module: 'personalization'
+    });
 })

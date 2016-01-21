@@ -1,15 +1,18 @@
 angular.module('home', [])
-.controller('homeController', ['$scope', '$location', '$http', '$ionicSideMenuDelegate', 'Product', function ($scope, $location, $http, $ionicSideMenuDelegate, Product) {
+.controller('homeController', ['$rootScope', '$scope', '$location', '$http', '$q', '$timeout', 'Product', function ($rootScope, $scope, $location, $http, $q, $timeout, Product) {
     console.log('im home');
 
-    //var newProduct = {
-    //    'ProductName': 'test one'
-    //}
+    // get products
+    Product.getProducts(10).then(function (productArray) {
+        $scope.products = productArray;
+        
+    });
 
-    // var product = Product.saveProduct(newProduct);
+    $scope.goToProductDetailPage = function (product) {
+        Product.setProductObject(product);
 
-    var products = Product.getProducts(5);
-	$scope.toggleProjects = function () {
-	    $ionicSideMenuDelegate.toggleLeft();
-  	}
+        $timeout(function () {
+            $location.path('product/detail');
+        }, 0);        
+    }
 }])

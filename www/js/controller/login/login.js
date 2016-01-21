@@ -18,7 +18,9 @@ angular.module('login', [])
 	$scope.loginFormSubmit = function (userObject) {
 		AV.User.logIn(userObject.phoneNumber, userObject.password, {
 			success: function (userObject) {
-				console.log('login success');
+			    $scope.$apply(function () {
+			        $location.path('home');
+			    })
 			}, 
 			error: function (userObject, error) {
 				$rootScope.modalContent = error.message;
