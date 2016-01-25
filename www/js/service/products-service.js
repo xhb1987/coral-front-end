@@ -1,4 +1,4 @@
-angular.module('bolunbao.services', [])
+angular.module('bolunbao.product.services', [])
 .factory('Product', ['$window', '$q', '$http', function ($window, $q, $http) {
     var productObject = AV.Object.extend('Products'),
         productQuery = new AV.Query(productObject);

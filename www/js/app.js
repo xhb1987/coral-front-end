@@ -143,7 +143,7 @@
 //   })
 // }])
 
-angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'product', 'personalization', 'bolunbao.services'])
+angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'product', 'personalization', 'personalizationSetting', 'bolunbao.product.services', 'bolunbao.user.services'])
 
 .run(function () {
     AV.initialize('G5U1oJpvNaYxCdim8RNxmllc-gzGzoHsz', 'Co6b01uVBWOgh2miRUzTbc3y');
@@ -186,5 +186,11 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'product', 'pe
         templateUrl: 'template/personalization/personalization.html',
         controller: 'personalizationController',
         module: 'personalization'
+    })
+    .state('personalization-setting', {
+        url: '/personalization-setting',
+        templateUrl: 'template/personalization/personalization-setting.html',
+        controller: 'personalizationSettingController',
+        module: 'personalizationSetting'
     });
 })
