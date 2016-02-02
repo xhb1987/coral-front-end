@@ -29,6 +29,7 @@
     <!-- controller -->
     <script src="js/controller/register/register.js"></script>
     <script src="js/controller/login/login.js"></script>
+    <script src="js/controller/logout/logout.js"></script>
     <script src="js/controller/home/home.js"></script>
     <script src="js/controller/product/product-edit.js"></script>
     <script src="js/controller/product/product-detail.js"></script>
@@ -58,8 +59,8 @@
                 </button> -->
             
         <!--</ion-nav-bar>-->
-        <ion-nav-bar class="bar-dark">
-            <ion-nav-back-button>
+        <ion-nav-bar class="bar-dark" ng-controller="appController">
+            <ion-nav-back-button ng-click="customBack()">
                 <i class="ion-chevron-left"></i>
             </ion-nav-back-button>
         </ion-nav-bar>

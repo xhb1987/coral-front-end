@@ -1,20 +1,23 @@
-<ion-header-bar class="bar-dark">
-  <h1 class="title">登录</h1>
-</ion-header-bar>
-<ion-content>
-	<form ng-submit="loginFormSubmit(user)">
-		<div class="list">
-			<label class="item item-input">
-				<span class="input-label">手机号</span>
-				<input type="text" ng-model="user.phoneNumber" name="user.phoneNumber">
-			</label>
-			<label class="item item-input">
-				<span class="input-label">密码</span>
-				<input type="password" ng-model="user.password" name="user.password">
-			</label>
-		</div>
-		<div class="padding">
-			<button type="submit" class="button button-block button-dark">提交</button>
-		</div>
-	</form>
+<ion-content class="content has-header">
+    <div class="content has-header padding">
+        <form ng-submit="loginFormSubmit(user)">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">手机号</span>
+                    <input type="text" ng-model="user.phoneNumber" name="user.phoneNumber">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">密码</span>
+                    <input type="password" ng-model="user.password" name="user.password">
+                </label>
+            </div>
+            <div class="padding">
+                <button type="submit" class="button button-block button-dark">提交</button>
+            </div>
+        </form>
+
+        <div class="padding">
+            <a href="#/register" class="button button-block button-positive">注册</a>
+        </div>
+    </div>
 </ion-content>

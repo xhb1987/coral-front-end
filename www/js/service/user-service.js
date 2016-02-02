@@ -34,11 +34,23 @@
         return userInstance;
     }
 
+    var getCurrentUser = function () {
+        var currentUser = AV.User.current();
+        var userAttr = {}
+        if (currentUser) {
+            angular.extend(userAttr, currentUser.attributes, currentUser.id);
+            q.resolve(userAttr);
+        }
+        return q.promise;
+    }
+
     return {
         userRegister: userRegister,
 
         setUserInstance: setUserInstance,
 
-        getUserInstance: getUserInstance
+        getUserInstance: getUserInstance,
+
+        getCurrentUser: getCurrentUser
     }
 }])

@@ -143,7 +143,7 @@
 //   })
 // }])
 
-angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'product', 'personalization', 'personalizationSetting', 'bolunbao.product.services', 'bolunbao.user.services'])
+angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'bolunbao.product.services', 'bolunbao.user.services'])
 
 .run(function () {
     AV.initialize('G5U1oJpvNaYxCdim8RNxmllc-gzGzoHsz', 'Co6b01uVBWOgh2miRUzTbc3y');
@@ -181,6 +181,12 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'product', 'pe
         controller: 'loginController',
         module: 'login'
     })
+    .state('logout', {
+        url: '/logout',
+        templateUrl: 'template/logout/logout.html',
+        controller: 'logoutController',
+        module: 'logout'
+    })
     .state('personalization', {
         url: '/personalization',
         templateUrl: 'template/personalization/personalization.html',
@@ -194,3 +200,21 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'home', 'product', 'pe
         module: 'personalizationSetting'
     });
 })
+.controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
+    console.log($ionicHistory.backView());
+    $scope.customBack = function () {
+        var backViewStateName = $ionicHistory.backView().stateName;
+        if (backViewStateName === "personalization") {
+            var currentUser = User.getCurrentUser();
+            currentUser.then(function (current) {
+                if (current) {
+                    
+                } else {
+                    $ionicHistory.goBack(-2);
+                }
+            })
+        }
+        console.log($ionicHistory.backView());
+        $ionicHistory.goBack();
+    }
+}])

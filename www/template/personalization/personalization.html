@@ -3,24 +3,30 @@
         <div class="list card">
             <div class="item item-icon-left">
                 <i class="icon ion-person"></i>
-                名字
+                {{userAttr.name}}
             </div>
 
             <div class="item item-icon-left">
                 <i class="icon ion-iphone"></i>
-                电话
+                {{userAttr.username}}
             </div>
 
             <div class="item item-icon-left">
                 <i class="icon ion-home"></i>
-                地址
+                {{userAttr.address}}
             </div>
         </div>
 
         <div class="padding">
             <a href="#/personalization-setting" class="button button-block button-positive">
-                Block Button
+                设置
             </a>
+        </div>
+
+        <div class="padding">
+            <button type="button" ng-click="logoutSubmit()" class="button button-block button-dark">
+                登出
+            </button>
         </div>
     </div>
 </ion-content>
