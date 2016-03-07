@@ -200,7 +200,7 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'pro
         module: 'personalizationSetting'
     });
 
-    ValidationProvider.setErrorMessage({ required: 'required error message' })
+    ValidationProvider.setErrorMessage({ required: 'required error message', integer: 'should be integer'})
 })
 .controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
     console.log($ionicHistory.backView());

@@ -39,4 +39,26 @@ directive('validationMessage', ['Validation', function (Validation) {
 
         templateUrl: "template/directive/errorMessage.html"
     }
-}])
+}]).
+directive('integer', function () {
+    return {
+        restrict: 'A',
+        require: '?ngModel',
+        link: function (scope, elm, attr, ctrl) {
+            if (!ctrl) return;
+
+            var integerRegx = /^\-?\d+$/,
+                integerValue;
+            
+            attr.$observe('integer', function (value) {
+                console.log(value)
+                ctrl.$validate();
+            });
+
+            ctrl.$validators.myInteger = function (value) {
+                console.log(value)
+                return ctrl.$isEmpty(value) || (integerRegx.test(value))
+            }
+        }
+    }
+})
