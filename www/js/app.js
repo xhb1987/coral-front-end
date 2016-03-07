@@ -143,13 +143,13 @@
 //   })
 // }])
 
-angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'bolunbao.product.services', 'bolunbao.user.services'])
+angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'bolunbao.validation', 'bolunbao.product.services', 'bolunbao.user.services'])
 
 .run(function () {
     AV.initialize('G5U1oJpvNaYxCdim8RNxmllc-gzGzoHsz', 'Co6b01uVBWOgh2miRUzTbc3y');
 })
-.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/')
+.config(function ($stateProvider, $urlRouterProvider, ValidationProvider) {
+    $urlRouterProvider.otherwise('/')
 
     $stateProvider.state('home', {
         url: '/',
@@ -199,6 +199,8 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'pro
         controller: 'personalizationSettingController',
         module: 'personalizationSetting'
     });
+
+    ValidationProvider.setErrorMessage({ required: 'required error message' })
 })
 .controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
     console.log($ionicHistory.backView());
@@ -217,4 +219,20 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'pro
         console.log($ionicHistory.backView());
         $ionicHistory.goBack();
     }
+}])
+.run(['$rootScope', '$location', 'User', function ($rootScope, $location, User) {
+    $rootScope.$on('$locationChangeSuccess', function (object, current, previous) {
+        console.dir(object);
+        console.dir(current);
+        console.log($location.path());
+        var currentPath = $location.path();
+        if (currentPath == '/personalization') {
+            var currentUser = AV.User.current();
+            if (!currentUser) {
+                $location.path('login');
+            }
+
+
+        }
+    })
 }])
