@@ -144,10 +144,12 @@
 // }])
 
 angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'bolunbao.validation', 'bolunbao.product.services', 'bolunbao.user.services'])
-
-.run(function () {
-    AV.initialize('G5U1oJpvNaYxCdim8RNxmllc-gzGzoHsz', 'Co6b01uVBWOgh2miRUzTbc3y');
-})
+.run(['$http', function ($http){
+    $http.get('http://localhost:1337/init/init').
+    success(function (data) {
+        console.log(data);
+    })
+}])
 .config(function ($stateProvider, $urlRouterProvider, ValidationProvider) {
     $urlRouterProvider.otherwise('/')
 
@@ -200,10 +202,17 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'pro
         module: 'personalizationSetting'
     });
 
-    ValidationProvider.setErrorMessage({ required: 'required error message', integer: 'should be integer'})
+    ValidationProvider.setErrorMessage({ 
+                                        required: {message: 'required error message',
+                                                   weight: 1}, 
+                                        integer: {message: 'should be integer',
+                                                  weight: 3},
+                                        phone: {message: 'should be phone number',
+                                                  weight: 2},
+
+                                        })
 })
 .controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
-    console.log($ionicHistory.backView());
     $scope.customBack = function () {
         var backViewStateName = $ionicHistory.backView().stateName;
         if (backViewStateName === "personalization") {
@@ -216,23 +225,18 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'pro
                 }
             })
         }
-        console.log($ionicHistory.backView());
+
         $ionicHistory.goBack();
     }
 }])
 .run(['$rootScope', '$location', 'User', function ($rootScope, $location, User) {
     $rootScope.$on('$locationChangeSuccess', function (object, current, previous) {
-        console.dir(object);
-        console.dir(current);
-        console.log($location.path());
         var currentPath = $location.path();
         if (currentPath == '/personalization') {
             var currentUser = AV.User.current();
             if (!currentUser) {
                 $location.path('login');
             }
-
-
         }
     })
 }])
