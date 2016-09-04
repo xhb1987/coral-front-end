@@ -143,11 +143,13 @@
 //   })
 // }])
 
-angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'bolunbao.validation', 'bolunbao.product.services', 'bolunbao.user.services'])
+angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'coral.validation', 'coral.product.services', 'coral.user.services'])
 .run(['$http', function ($http){
-    $http.get('http://localhost:1337/init/init').
+    window. nodeUrl = 'http://localhost:1337/';
+
+    $http.get(window.nodeUrl + 'init/init').
     success(function (data) {
-        console.log(data);
+        console.log(data);          
     })
 }])
 .config(function ($stateProvider, $urlRouterProvider, ValidationProvider) {
@@ -213,30 +215,30 @@ angular.module('bolunbao', ['ionic', 'reigster', 'login', 'logout', 'home', 'pro
                                         })
 })
 .controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
-    $scope.customBack = function () {
-        var backViewStateName = $ionicHistory.backView().stateName;
-        if (backViewStateName === "personalization") {
-            var currentUser = User.getCurrentUser();
-            currentUser.then(function (current) {
-                if (current) {
+    // $scope.customBack = function () {
+    //     var backViewStateName = $ionicHistory.backView().stateName;
+    //     if (backViewStateName === "personalization") {
+    //         var currentUser = User.getCurrentUser();
+    //         currentUser.then(function (current) {
+    //             if (current) {
                     
-                } else {
-                    $ionicHistory.goBack(-2);
-                }
-            })
-        }
+    //             } else {
+    //                 $ionicHistory.goBack(-2);
+    //             }
+    //         })
+    //     }
 
-        $ionicHistory.goBack();
-    }
+    //     $ionicHistory.goBack();
+    // }
 }])
 .run(['$rootScope', '$location', 'User', function ($rootScope, $location, User) {
-    $rootScope.$on('$locationChangeSuccess', function (object, current, previous) {
-        var currentPath = $location.path();
-        if (currentPath == '/personalization') {
-            var currentUser = AV.User.current();
-            if (!currentUser) {
-                $location.path('login');
-            }
-        }
-    })
+    // $rootScope.$on('$locationChangeSuccess', function (object, current, previous) {
+    //     var currentPath = $location.path();
+    //     if (currentPath == '/personalization') {
+    //         var currentUser = AV.User.current();
+    //         if (!currentUser) {
+    //             $location.path('login');
+    //         }
+    //     }
+    // })
 }])

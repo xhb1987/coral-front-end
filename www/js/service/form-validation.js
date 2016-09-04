@@ -1,4 +1,4 @@
-﻿angular.module('bolunbao.validation', []).
+﻿angular.module('coral.validation', []).
 provider('Validation', function () {
     this.errorMessages = {};
 
