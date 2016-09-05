@@ -145,7 +145,7 @@
 
 angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'coral.validation', 'coral.product.services', 'coral.user.services'])
 .run(['$http', function ($http){
-    window. nodeUrl = 'http://localhost:1337/';
+    window.nodeUrl = 'http://localhost:1337/';
 
     $http.get(window.nodeUrl + 'init/init').
     success(function (data) {
