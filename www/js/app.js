@@ -215,21 +215,22 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
                                         })
 })
 .controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
-    // $scope.customBack = function () {
-    //     var backViewStateName = $ionicHistory.backView().stateName;
-    //     if (backViewStateName === "personalization") {
-    //         var currentUser = User.getCurrentUser();
-    //         currentUser.then(function (current) {
-    //             if (current) {
-                    
-    //             } else {
-    //                 $ionicHistory.goBack(-2);
-    //             }
-    //         })
-    //     }
+    $scope.customBack = function() {
+        var backViewStateName = $ionicHistory.backView().stateName;
+        // if (backViewStateName === "personalization") {
+        //     var currentUser = User.getCurrentUser();
+        //     currentUser.then(function(current) {
+        //         if (current) {
 
-    //     $ionicHistory.goBack();
-    // }
+        //         } else {
+        //             $ionicHistory.goBack(-2);
+        //         }
+        //     })
+        // }
+
+        $ionicHistory.goBack();
+    }
+
 }])
 .run(['$rootScope', '$location', 'User', function ($rootScope, $location, User) {
     // $rootScope.$on('$locationChangeSuccess', function (object, current, previous) {

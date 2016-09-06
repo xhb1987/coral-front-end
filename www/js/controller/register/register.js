@@ -1,8 +1,8 @@
 angular.module('reigster', [])
 .controller('registerStep1Controller', ['$scope', '$location', '$http', 'User', function ($scope, $location, $http, User) {
 	
-	$scope.registerFormSubmit = function (user) {
-	    User.userRegister(user).then(function (data) {            
+	$scope.registerFormSubmit = function (userObject) {
+	    User.userRegister(userObject).then(function (data) {            
 	        if (data.hasOwnProperty('code')) {
 	            console.log(data);
 	        } else {
