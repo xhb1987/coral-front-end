@@ -145,14 +145,44 @@
 
 angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'coral.validation', 'coral.product.services', 'coral.user.services'])
 .run(['$http', function ($http){
-    window.nodeUrl = 'http://localhost:1337/';
+    window.nodeUrl = 'http://localhost:80/';
 
     $http.get(window.nodeUrl + 'init/init').
     success(function (data) {
         console.log(data);          
     })
 }])
-.config(function ($stateProvider, $urlRouterProvider, ValidationProvider) {
+.factory('httpLoadingInterceptor', function ($q, $injector) {
+
+    var showLoading = function () {
+        $injector.get('$ionicLoading').show({
+            template: 'Loading...',
+        })
+    };
+
+    var hideLoading = function () {
+        $injector.get('$ionicLoading').hide();
+    }
+
+    return {
+        request: function (config) {
+            showLoading();
+            return config;
+        },
+
+        response: function (response) {
+            hideLoading();
+            return response;
+        },
+
+        responseError: function (response) {
+            return response;
+        }
+    }
+
+
+})
+.config(function ($stateProvider, $urlRouterProvider, ValidationProvider, $httpProvider) {
     $urlRouterProvider.otherwise('/')
 
     $stateProvider.state('home', {
@@ -212,9 +242,12 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
                                         phone: {message: 'should be phone number',
                                                   weight: 2},
 
-                                        })
+                                        });
+
+    $httpProvider.interceptors.push('httpLoadingInterceptor');
 })
 .controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
+    
     $scope.customBack = function() {
         var backViewStateName = $ionicHistory.backView().stateName;
         // if (backViewStateName === "personalization") {
@@ -227,10 +260,29 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
         //         }
         //     })
         // }
-
         $ionicHistory.goBack();
+    };
+}])
+.controller('footerController', ['$scope', '$location', 'User', function ($scope, $location, User) {
+    $scope.userAuthButtonName = 'Login';
+
+    var checkUserStatus = function () {
+        if (User.getUserInstance() != null) {
+            $scope.userAuthButtonName = 'Me';
+        } else {
+            $scope.userAuthButtonName = 'Login';
+        }
     }
 
+    User.registerObserverCallback(checkUserStatus);
+
+    $scope.userAuth = function () {
+        if (User.getUserInstance() != null) {
+            $location.path('personalization');
+        } else {
+            $location.path('login');
+        }
+    }
 }])
 .run(['$rootScope', '$location', 'User', function ($rootScope, $location, User) {
     // $rootScope.$on('$locationChangeSuccess', function (object, current, previous) {

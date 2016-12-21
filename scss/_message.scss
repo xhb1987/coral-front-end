@@ -1,0 +1,12 @@
+@import "variable";
+
+.message {
+    display: block;
+    height: $message-height;
+    font-size: $message-font-size;
+    background-color: $message-background-color;
+    padding: $message-padding;
+    border-radius: $message-border-radius;
+    line-height: $message-height;
+    margin-bottom: 20px;
+}

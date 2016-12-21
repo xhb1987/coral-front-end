@@ -1,3 +1,3 @@
 ﻿<div ng-show="validationForm.$submitted || validationField.$touched">
-    <span ng-class='buildErrorClass()' ng-repeat='(errorKey, isError) in errors'>{{errorFor(errorKey)}}</span>
+    <span class='message' ng-class='buildErrorClass()' ng-repeat='(errorKey, isError) in errors'>{{errorFor(errorKey)}}</span>
 </div>

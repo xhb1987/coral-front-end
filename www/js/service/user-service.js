@@ -1,51 +1,24 @@
 ﻿angular.module('coral.user.services', [])
     .factory('User', ['$window', '$q', '$http', function($window, $q, $http) {
-        var q = $q.defer();
         var userInstance = {};
+        var userObserverCallback = [];
 
-        var userRegister = function(user) {
-            // userObject.set('username', user.phoneNumber);
-            // userObject.set('password', user.password);
-
-            // userObject.signUp().then(function (data) {
-            //     q.resolve(data);
-            // }, function (error) {
-            //     q.resolve(error);
-            // })
-
-            // return q.promise;
-            console.log('register')
+        var notifyObservers = function () {
+            angular.forEach(userObserverCallback, function (callback) {
+                callback();
+            })
         }
-
-        // var setUserInstance = function (user) {
-        //     if (user) {
-        //         angular.extend(userInstance, {
-        //             'ObjectId': user.id,
-        //             'UserName': user.attributes.username,
-        //             'isEmailVerified': user.attributes.emailVerified,
-        //             'isMobilePhoneVerified': user.attributes.mobilePhoneVerified
-        //         })
-        //     }
-        // }
-
-        // var getUserInstance = function () {
-        //     return userInstance;
-        // }
-
-        // var getCurrentUser = function () {
-        //     var currentUser = AV.User.current();
-        //     var userAttr = {}
-        //     if (currentUser) {
-        //         angular.extend(userAttr, currentUser.attributes, currentUser.id);
-        //         q.resolve(userAttr);
-        //     }
-        //     return q.promise;
-        // }
 
         return {
             //userRegister: userRegister,
+            registerObserverCallback: function (callback) {
+                userObserverCallback.push(callback);
+            },
+
+            notifyObservers: notifyObservers,
 
             userLogin: function(user) {
+                var q = $q.defer();
                 if (user != void 0) {
                     return $http.post(window.nodeUrl + 'user/login', { params: { username: user.username, password: user.password } }).
                     then(function(user) {
@@ -59,10 +32,26 @@
             },
 
             userRegister: function(user) {
+                var q = $q.defer();
                 if (user != void 0) {
                     return $http.post(window.nodeUrl + 'user/register', { params: { username: user.username, password: user.password } }).
                     then(function(user) {
                         q.resolve(user.data);
+                        return q.promise;
+                    }, function (err) {
+                        q.resolve(err.data);
+                        return q.promise; 
+                    })
+                }
+            },
+
+            userLogout: function(user) {
+                var q = $q.defer();
+                if (user != void 0) {
+                    return $http.post(window.nodeUrl + 'user/logout').
+                    then(function(data) {
+                        q.resolve(data.data);
+                        userInstance = {};
                         return q.promise;
                     })
                 }
@@ -71,17 +60,24 @@
             setUserInstance: function(user) {
                 if (user != void 0) {
                     angular.extend(userInstance, {
-                        'ObjectId': user.id,
-                        'UserName': user.attributes.username,
-                        'isEmailVerified': user.attributes.emailVerified,
-                        'isMobilePhoneVerified': user.attributes.mobilePhoneVerified
+                        'ObjectId': user.objectId,
+                        'UserName': user.username,
+                        'isEmailVerified': user.emailVerified,
+                        'isMobilePhoneVerified': user.mobilePhoneVerified,
+                        'name': user.name,
+                        'address': user.address
                     })
+                } else {
+                    userInstance = {};
                 }
             },
 
-
-            // getUserInstance: getUserInstance,
-
-            // getCurrentUser: getCurrentUser
+            getUserInstance: function() {
+                if (Object.getOwnPropertyNames(userInstance).length > 0) {
+                    return userInstance;
+                } else {
+                    return null;
+                }
+            }
         }
     }])
