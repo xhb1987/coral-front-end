@@ -35,12 +35,13 @@
                 var q = $q.defer();
                 if (user != void 0) {
                     return $http.post(window.nodeUrl + 'user/register', { params: { username: user.username, password: user.password } }).
-                    then(function(user) {
-                        q.resolve(user.data);
+                    then(function(data) {
+                        if (data.status != 600) {
+                            q.reject(data.data);
+                        } else {
+                            q.resolve(user.data);    
+                        }                        
                         return q.promise;
-                    }, function (err) {
-                        q.resolve(err.data);
-                        return q.promise; 
                     })
                 }
             },

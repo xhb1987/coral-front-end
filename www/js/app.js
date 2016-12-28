@@ -176,6 +176,7 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
         },
 
         responseError: function (response) {
+            hideLoading();
             return response;
         }
     }
