@@ -143,16 +143,22 @@
 //   })
 // }])
 
-angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'coral.validation', 'coral.product.services', 'coral.user.services'])
-.run(['$http', function ($http){
+angular.module('coral', ['ionic', 'ngCookies', 'reigster', 'login', 'logout', 'home', 'product', 'personalization', 'personalizationSetting', 'coral.validation', 'coral.product.services', 'coral.user.services'])
+.run(['$http', '$rootScope', '$location', '$cookies', 'User', function ($http, $rootScope, $location, $cookies, User) {
     window.nodeUrl = 'http://localhost:80/';
 
     $http.get(window.nodeUrl + 'init/init').
     success(function (data) {
         console.log(data);          
     })
+
+    var current = $cookies.get('current');
+    if (current) {
+        current = JSON.parse(current.substring(current.indexOf('{')));
+        User.setUserInstance(current);
+    }
 }])
-.factory('httpLoadingInterceptor', function ($q, $injector) {
+.factory('httpLoadingInterceptor', function ($q, $cookies, $injector) {
 
     var showLoading = function () {
         $injector.get('$ionicLoading').show({
@@ -167,6 +173,7 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
     return {
         request: function (config) {
             showLoading();
+            console.log(config.headers)
             return config;
         },
 
@@ -245,10 +252,10 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
 
                                         });
 
+    $httpProvider.defaults.withCredentials = true;
     $httpProvider.interceptors.push('httpLoadingInterceptor');
 })
 .controller('appController', ['$scope', '$location', '$ionicHistory', 'User', function ($scope, $location, $ionicHistory, User) {
-    
     $scope.customBack = function() {
         var backViewStateName = $ionicHistory.backView().stateName;
         // if (backViewStateName === "personalization") {
@@ -265,8 +272,6 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
     };
 }])
 .controller('footerController', ['$scope', '$location', 'User', function ($scope, $location, User) {
-    $scope.userAuthButtonName = 'Login';
-
     var checkUserStatus = function () {
         if (User.getUserInstance() != null) {
             $scope.userAuthButtonName = 'Me';
@@ -274,6 +279,7 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
             $scope.userAuthButtonName = 'Login';
         }
     }
+    checkUserStatus();
 
     User.registerObserverCallback(checkUserStatus);
 
@@ -284,15 +290,4 @@ angular.module('coral', ['ionic', 'reigster', 'login', 'logout', 'home', 'produc
             $location.path('login');
         }
     }
-}])
-.run(['$rootScope', '$location', 'User', function ($rootScope, $location, User) {
-    // $rootScope.$on('$locationChangeSuccess', function (object, current, previous) {
-    //     var currentPath = $location.path();
-    //     if (currentPath == '/personalization') {
-    //         var currentUser = AV.User.current();
-    //         if (!currentUser) {
-    //             $location.path('login');
-    //         }
-    //     }
-    // })
 }])

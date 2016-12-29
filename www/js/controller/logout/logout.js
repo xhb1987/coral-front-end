@@ -1,5 +1,5 @@
 ﻿angular.module('logout', [])
-.controller('logoutController', ['$scope', '$location', '$ionicModal', '$timeout', '$rootScope', 'User', function ($scope, $location, $ionicModal, $timeout, $rootScope, User) {
+.controller('logoutController', ['$scope', '$location', 'User', function ($scope, $location, User) {
     $scope.logoutFormSubmit = function () {
         var userInstance = User.getUserInstance();
         if (userInstance) {

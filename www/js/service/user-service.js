@@ -1,5 +1,5 @@
 ﻿angular.module('coral.user.services', [])
-    .factory('User', ['$window', '$q', '$http', function($window, $q, $http) {
+    .factory('User', ['$window', '$q', '$http', '$cookies', function($window, $q, $http, $cookies) {
         var userInstance = {};
         var userObserverCallback = [];
 
@@ -36,7 +36,7 @@
                 if (user != void 0) {
                     return $http.post(window.nodeUrl + 'user/register', { params: { username: user.username, password: user.password } }).
                     then(function(data) {
-                        if (data.status != 600) {
+                        if (data.status != 200) {
                             q.reject(data.data);
                         } else {
                             q.resolve(user.data);    
@@ -51,7 +51,12 @@
                 if (user != void 0) {
                     return $http.post(window.nodeUrl + 'user/logout').
                     then(function(data) {
-                        q.resolve(data.data);
+                        if (data.status != 200) {
+                            q.reject(data.data);
+                        } else {
+                            q.resolve(data.data);
+                        }
+                        $cookies.remove('current', {path: '/'});
                         userInstance = {};
                         return q.promise;
                     })
