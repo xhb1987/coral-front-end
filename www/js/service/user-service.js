@@ -57,6 +57,7 @@
                             q.resolve(data.data);
                         }
                         $cookies.remove('current', {path: '/'});
+                        $cookies.remove('token', {path: '/'});
                         userInstance = {};
                         return q.promise;
                     })
