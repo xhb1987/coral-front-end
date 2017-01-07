@@ -34,7 +34,7 @@
             userRegister: function(user) {
                 var q = $q.defer();
                 if (user != void 0) {
-                    return $http.post(window.nodeUrl + 'user/register', { params: { username: user.username, password: user.password } }).
+                    return $http.post(window.nodeUrl + 'user/register', { params: { username: user.username, password: user.password, role: 'client' } }).
                     then(function(data) {
                         if (data.status != 200) {
                             q.reject(data.data);

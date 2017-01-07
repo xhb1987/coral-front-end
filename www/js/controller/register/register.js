@@ -7,6 +7,7 @@ angular.module('reigster', [])
             User.setUserInstance(data);
             console.log(User.getUserInstance());
 	    }, function (error) {
+            console.log(error)
             $ionicPopup.alert({
                 title: 'Error',
                 template: error.message
